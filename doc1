@@ -1,0 +1,26 @@
+1.start container
+  docker run --name mongodb -v /docker/data/db:/data/db -p 2277:27017 -d mongo:latest --auth
+2.shell to container [mondo db]
+   docker exec -it mongodb mongo admin
+2.1 create user admin
+   db.createUser({
+       user: "admin",
+       pwd: "secure",
+       roles: [{role: "root", db: "admin"}]
+   })
+2.2 test auth
+    show db     => error because do not authorize
+
+3. login
+    db.auth("admin","secure")
+
+4. create collection
+    db.createCollection("$collectionName$")     //$..$ mean your value
+
+5. insert data to collection   
+    db.$collectionName$.insert($jasonObject$)   // ex. > {name: "name1", age: 28}
+
+6. select data
+    db.$collectionName$,find()                  // get all
+    db.$collectionName$.findOne()               // get one
+
